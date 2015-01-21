@@ -23,15 +23,13 @@ dependency requirements (ex: .NET Framework 4.x, Visual Studio 2013, etc...).
 	● I have an Images folder that contains the images for the products. 
 
 
-
-
 ● How to run the suite of automated tests (unit tests, BDD tests, etc...), including any external libraries it requires.\
 
 	● I built the project on .NET 4.5 on the VS Ultimate 2013 environment.
 	
-	● I imported the CodeAvenue dll and other dll's that were associated with the Code Avenue Project. Prevention is better than cure....
+	● I imported the CodeAvenueSolution dll and other dll's that were associated with the Code Avenue Project. Prevention is better than cure....
 	
-	● I created a Unit Test Project containing Unit Test Scripts for the Product and Cart Controller that contained tests for the all the ActionResult Methods. I ensure that none of the views came back as null.  It passed these tests for both controllers. 
+	● I created a Unit Test Project containing Unit Test Scripts for the Products Controller that contained tests for the all the ActionResult Methods. I ensure that none of the views came back as null. I also tested that the correct details were returned for their respective productID. It passed these tests for both controllers. 
 
 	
 	

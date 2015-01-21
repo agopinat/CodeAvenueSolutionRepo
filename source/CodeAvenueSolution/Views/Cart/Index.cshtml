@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CodeAvenueSolution.Product>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h1>Cart</h1>
+ <h2 class="text-right">Total in USD:<div id="total"></div>
+ </h2> 
+<p>
+
+</p>
+
+<p>
+
+</p>
+
+<table id ="Cart" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price) (USD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityInHand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            Total Price (USD)
+        </th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+            @Html.Partial("_Cart",item)
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityInHand)
+        </td>
+        <td>
+            <img src="@Url.Content(item.Image)" />
+        </td>
+        <td>
+            @(item.QuantityInHand * item.Price)
+        </td>
+        <td>
+            <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID })">Delete from Cart <span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+}
+</table>
+
+<script src= "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/FindTotal.js"></script>

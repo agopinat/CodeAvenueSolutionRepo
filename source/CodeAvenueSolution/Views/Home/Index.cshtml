@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="jumbotron">
+    <h1>Welcome to Torreto Auto Parts</h1>
+    <p class="lead">
+        Torreto Auto Parts specializes in parts for high performance cars
+        that can run a quarter-mile in less than 10 seconds.
+        Our user-friendly website allows customers to search available car parts for purchase,
+        provide detailed information on each one and add them their shopping cart.
+    </p>
+    <p>@Html.ActionLink("Search Product List", "Index", "Products", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+</div>

@@ -1,0 +1,11 @@
+﻿@model CodeAvenueSolution.Product
+
+<td>
+    @Html.ActionLink(Model.Name, "Edit", new { id = Model.ProductID })
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.Price)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.Car)
+</td>

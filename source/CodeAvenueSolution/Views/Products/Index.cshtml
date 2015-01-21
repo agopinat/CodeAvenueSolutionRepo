@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CodeAvenueSolution.Product>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<h2>Product List</h2>
+
+<p>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price) in USD
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @Html.Partial("_Products",item)
+        <td>
+            <img src="@Url.Content(item.Image)" />
+        </td>
+        <td>
+            <a href="@Url.Action("Create", "Cart", new { id = item.ProductID })">Add to Cart <span class="glyphicon glyphicon-shopping-cart"></span></a>
+        </td>
+    </tr>
+}
+
+</table>

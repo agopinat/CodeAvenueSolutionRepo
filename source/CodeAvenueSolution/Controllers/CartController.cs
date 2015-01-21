@@ -13,6 +13,10 @@ namespace CodeAvenueSolution.Controllers
     public class CartController : Controller
     {
         private localEntities db = new localEntities();
+        public static int? inProductID;
+        public static string inProductName;
+        public static string inProductCar;
+        public static bool isEdit = false;
 
         // GET: Cart
         public ActionResult Index()
@@ -39,6 +43,7 @@ namespace CodeAvenueSolution.Controllers
         // GET: Cart/Create
         public ActionResult Create(int? id)
         {
+            inProductID = id;
             ViewBag.CartID = new SelectList(db.Carts, "CartID", "CartName");
             
             if (id == null)
@@ -63,6 +68,7 @@ namespace CodeAvenueSolution.Controllers
             if (ModelState.IsValid)
             {
                 db.Products.Add(product);
+                updateProductList(product.QuantityInHand,false,false);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -79,6 +85,9 @@ namespace CodeAvenueSolution.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
+            inProductName = product.Name;
+            inProductCar = product.Car;
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -97,6 +106,7 @@ namespace CodeAvenueSolution.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(product).State = EntityState.Modified;
+                updateProductList(product.QuantityInHand,true,false);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -112,6 +122,9 @@ namespace CodeAvenueSolution.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
+            inProductName = product.Name;
+            inProductCar = product.Car;
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -126,6 +139,7 @@ namespace CodeAvenueSolution.Controllers
         {
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
+            updateProductList(product.QuantityInHand, false, true);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -137,6 +151,40 @@ namespace CodeAvenueSolution.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void updateProductList(decimal? postBackProductQIH, bool isEdit, bool isDelete)
+        {
+
+            if (isEdit) //update quantity in Hand in Product List when Product Ordered is Changed in Cart
+            {
+                var qry1 = from product in db.Products where product.Name == inProductName 
+                           && product.Car == inProductCar 
+                           && product.CartID == null
+                           select product;
+                var item = qry1.Single();
+                item.QuantityInHand = item.QuantityInHand - postBackProductQIH;
+                isEdit = false;
+                isDelete = false;
+            }
+            else if (isDelete) //update quantity in Hand in Product List when Product Ordered is Deleted from Cart
+            {
+                var qry2 = from product in db.Products
+                           where product.Name == inProductName
+                               && product.Car == inProductCar
+                               && product.CartID == null
+                           select product;
+                var item = qry2.Single();
+                item.QuantityInHand = item.QuantityInHand + postBackProductQIH;
+                isEdit = false;
+                isDelete = false;
+            }
+            else //update quantity in Hand in Product List when Product Ordered is Added to Cart
+            {
+                var qry3 = from product in db.Products where product.ProductID == inProductID select product;
+                var item = qry3.Single();
+                item.QuantityInHand = item.QuantityInHand - postBackProductQIH;
+            }
         }
     }
 }
